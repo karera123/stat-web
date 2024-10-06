@@ -1,0 +1,9 @@
+HOMEWORK 1
+1. Basic notions in Statistics: Population, Statistical Units, Distribution;
+2. Notion of average. Computational problems with floating point rapresentation ( errors, catastrophical cancellation) and numerical solution ( Knuth ) ;
+3. (For exercise you can use Visual Studio: C# or VB, or other IDE for Javascript)
+We have n servers with m attackers.
+The hacker has probability p to penetrate each server.
+Make a graphical representation (line flat if hacker doesn't penetrate and a jump to 1 if he penetrates), try different n,m,p.
+At time n we want to count how many reached each level.
+Useful funcions: random, drawlines, drawrectangle
