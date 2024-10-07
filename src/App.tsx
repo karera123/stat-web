@@ -2,6 +2,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import NotFound from './pages/NotFound';
 import { routes } from './utils/routes';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 const App = () => {
   return (
