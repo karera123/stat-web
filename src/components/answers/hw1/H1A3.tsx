@@ -101,7 +101,8 @@ const H1A3 = () => {
           label: 'Breaches',
           data: _dataAll,
           fill: false,
-          borderColor: 'rgb(' + getRgbValue() + ', ' + getRgbValue() + ', ' + getRgbValue() + ')'
+          borderColor: 'rgb(' + getRgbValue() + ', ' + getRgbValue() + ', ' + getRgbValue() + ')',
+          tension: 0.25
         }
       );
     }
@@ -126,6 +127,22 @@ const H1A3 = () => {
       chartSingle = new Chart(chartSingleRef.current, {
         type: 'line',
         data: dataSingle,
+        options: {
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Servers'
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Number of breaches'
+              }
+            }
+          }
+        }
       });
     }
 
@@ -133,6 +150,27 @@ const H1A3 = () => {
       chartTotal = new Chart(chartTotalRef.current, {
         type: 'line',
         data: dataTotal,
+        options: {
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Servers'
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Number of breaches'
+              }
+            }
+          }
+        }
       });
     }
 
@@ -204,8 +242,12 @@ const H1A3 = () => {
         </table>
       </section>
       <div className="w-[800] mx-auto mt-5">
-        <canvas className="my-3" ref={chartSingleRef}></canvas>
-        <canvas className="my-3" ref={chartTotalRef}></canvas>
+        <div className="mt-12">
+          <canvas ref={chartSingleRef}></canvas>
+        </div>
+        <div className="mt-20">
+          <canvas ref={chartTotalRef}></canvas>
+        </div>
       </div>
     </div>
   )
