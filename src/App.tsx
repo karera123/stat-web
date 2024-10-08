@@ -8,7 +8,7 @@ Chart.register(...registerables);
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='stat-web'>
       <Routes>
         <Route element={<Layout />}>
           {
