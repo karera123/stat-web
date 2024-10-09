@@ -1,6 +1,8 @@
 import { Chart } from "chart.js";
 import { isNumber } from "chart.js/helpers";
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import CSharpEx3Img from '../../../assets/images/hw1-c-sharp.png';
 
 type Data = Record<'labels' | 'datasets', any>;
 
@@ -23,7 +25,7 @@ const H1A3 = () => {
 
     if (isNumber(serversCount) && isNumber(attackersCount) && isNumber(probability)) {
       for (let i = 1; i <= serversCount; i++) {
-        newData.labels.push('Server ' + i);
+        newData.labels.push(i);
       }
 
       const attackersResults: number[][] = [];
@@ -49,7 +51,7 @@ const H1A3 = () => {
 
         newData.datasets.push(
           {
-            label: 'Attacker ' + (i + 1),
+            label: 'Successful attack by attacker #' + (i + 1),
             data: _data,
             fill: false,
             borderColor: 'rgb(' + getRgbValue() + ', ' + getRgbValue() + ', ' + getRgbValue() + ')'
@@ -69,7 +71,7 @@ const H1A3 = () => {
 
     if (isNumber(serversCount) && isNumber(attackersCount) && isNumber(probability)) {
       for (let i = 1; i <= serversCount; i++) {
-        newData.labels.push('Server ' + i);
+        newData.labels.push(i);
       }
 
       const attackersResults: number[][] = [];
@@ -98,11 +100,12 @@ const H1A3 = () => {
 
       newData.datasets.push(
         {
-          label: 'Breaches',
+          label: 'Total number of successful attack',
           data: _dataAll,
           fill: false,
           borderColor: 'rgb(' + getRgbValue() + ', ' + getRgbValue() + ', ' + getRgbValue() + ')',
-          tension: 0.25
+          tension: 0.25,
+          backgroundColor: 'rgba(54, 162, 235, 0.7)',
         }
       );
     }
@@ -111,12 +114,12 @@ const H1A3 = () => {
   }
 
   const getData = () => {
-    const serversCount = Number(serverInputRef.current?.value);
-    const attackersCount = Number(attackerInputRef.current?.value);
-    const probability = Number(probabilityInputRef.current?.value);
+    const _serverCount = Number(serverInputRef.current?.value);
+    const _attackerCount = Number(attackerInputRef.current?.value);
+    const _probability = Number(probabilityInputRef.current?.value);
 
-    generateDataSingleAttacker(serversCount, attackersCount, probability);
-    generateDataAllAttacker(serversCount, attackersCount, probability);
+    generateDataSingleAttacker(_serverCount, _attackerCount, _probability);
+    generateDataAllAttacker(_serverCount, _attackerCount, _probability);
   }
 
   useEffect(() => {
@@ -127,29 +130,6 @@ const H1A3 = () => {
       chartSingle = new Chart(chartSingleRef.current, {
         type: 'line',
         data: dataSingle,
-        options: {
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Servers'
-              }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Number of breaches'
-              }
-            }
-          }
-        }
-      });
-    }
-
-    if (chartTotalRef.current && dataTotal) {
-      chartTotal = new Chart(chartTotalRef.current, {
-        type: 'line',
-        data: dataTotal,
         options: {
           plugins: {
             legend: {
@@ -166,7 +146,44 @@ const H1A3 = () => {
             y: {
               title: {
                 display: true,
-                text: 'Number of breaches'
+                text: 'Number of breached servers'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    if (chartTotalRef.current && dataTotal) {
+      chartTotal = new Chart(chartTotalRef.current, {
+        plugins: [ChartDataLabels],
+        type: 'bar',
+        data: dataTotal,
+        options: {
+          plugins: {
+            legend: {
+              display: false
+            },
+            datalabels: {
+              display: true,
+              align: 'center',
+              color: 'black',
+              font: {
+                weight: 'bold'
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Servers'
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Number of breached servers'
               }
             }
           }
@@ -183,7 +200,8 @@ const H1A3 = () => {
   return (
     <div className="py-9">
       <section>
-        <table>
+        Source code: <a href='https://github.com/karera123/stat-web/tree/main/src'>Javascript</a>
+        <table className="mt-5">
           <tbody>
             <tr>
               <td>
@@ -234,19 +252,25 @@ const H1A3 = () => {
                   onClick={getData}
                   className="rounded-full bg-slate-200 px-4 py-2"
                 >
-                  Draw
+                  Simulate
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
       </section>
-      <div className="w-[800] mx-auto mt-5">
-        <div className="mt-12">
-          <canvas ref={chartSingleRef}></canvas>
+      <div id='javascript' className="w-[800] mx-auto mt-5 p-12 flex flex-row">
+        <div className="flex-1 border">
+          <canvas className="w-[500px]" ref={chartSingleRef}></canvas>
         </div>
-        <div className="mt-20">
-          <canvas ref={chartTotalRef}></canvas>
+        <div className="flex-1 border">
+          <canvas className="w-[500px]" ref={chartTotalRef}></canvas>
+        </div>
+      </div>
+      <div id='cSharp'>
+        Source code: <a href='https://github.com/karera123/stat-c-sharp/tree/main/Hw1'>C#</a>
+        <div className="flex justify-center">
+          <img alt='Exercise 3 - C#' src={CSharpEx3Img} />
         </div>
       </div>
     </div>
